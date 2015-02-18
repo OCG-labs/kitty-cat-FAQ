@@ -2,7 +2,7 @@
 
 namespace oneTheme;
 
-class Selectable_FAQ extends OneModule{
+class Selectable_FAQ extends Module{
 
   public function init() {
       $this->custom_post_type();
@@ -11,25 +11,25 @@ class Selectable_FAQ extends OneModule{
   }
 
   public function custom_post_type() {
-      $faq = new \Super_Custom_Post_Type( 'faqlist', 'FAQ', 'Frequently Asked Questions');
-      $this->$faq->add_to_columns( 'faq-cat' );
-      $this->$faq->set_icon( 'list-alt' );
+      $this->faq = new \Super_Custom_Post_Type( 'faqlist', 'FAQ', 'Frequently Asked Questions');
+      $this->faq->add_to_columns( 'faq-cat' );
+      $this->faq->set_icon( 'list-alt' );
   }
 
   public function custom_post_tax() {
-      $faqTax = new \Super_Custom_Taxonomy( 'faq-cat', 'FAQ Category', 'FAQ Categories', 'cat' );
-      \connect_types_and_taxes( $this->$faq, $this->$faqTax );
+      $this->faqTax = new \Super_Custom_Taxonomy( 'faq-cat', 'FAQ Category', 'FAQ Categories', 'cat' );
+      \connect_types_and_taxes( $this->faq, $this->faqTax );
 
   }
 
   public function faq_sc_view() {
       ob_start();
 
-      $terms = \get_terms($tax, 'orderby=slug&hide_empty=1');
+      $terms = \get_terms('faq-cat', 'orderby=slug&hide_empty=1');
       	echo '<ul class="list-inline text-center">';
       if(!empty($terms)) : foreach($terms as $tterm) :
 
-      	echo '<li><a class="smoothScroll btn btn-dark" href="#'.$tterm->slug.'">'.$tterm->name.'</a></li>';
+      	echo '<li><a class="smoothScroll btn btn-default" href="#'.$tterm->slug.'">'.$tterm->name.'</a></li>';
 
       	endforeach;
       	echo '</ul>';
